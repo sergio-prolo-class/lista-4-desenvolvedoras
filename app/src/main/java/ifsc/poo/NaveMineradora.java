@@ -6,7 +6,7 @@ public class NaveMineradora extends NaveEspacial implements Tripulada {
     private int energiaLaserAtual;
 
     public NaveMineradora() {
-        super(20, 4);
+        super(18, 4);
         this.energiaLaserMaxima = 1000; // Valor de exemplo
         this.energiaLaserAtual = 1000;
     }
