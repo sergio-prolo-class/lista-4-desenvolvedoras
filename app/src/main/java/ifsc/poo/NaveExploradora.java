@@ -1,45 +1,33 @@
 package ifsc.poo;
 
 public class NaveExploradora extends NaveEspacial implements Blindada, Tripulada {
+    private boolean holofotesLigados = false;
 
-    private boolean holofotesLigados;
+    public NaveExploradora() { super(14, 8); }
 
-    public NaveExploradora() {
-        super(14, 8);
-        this.holofotesLigados = false;
-    }
-
-    @Override
     public String ativarBlindagem() {
-        return "NaveExploradora (ID#" + this.id + "): blindagem ativada.";
+        return "NaveExploradora (ID#" + id + "): blindagem ativada.";
     }
 
-    @Override
+    public String desativarBlindagem() {
+        return "NaveExploradora (ID#" + id + "): blindagem desativada.";
+    }
+
     public String controlarManual() {
-        return "NaveExploradora (ID#" + this.id + "): controle manual ativado.";
+        return "NaveExploradora (ID#" + id + "): controle manual ativado.";
     }
 
     public String ligarHolofotes() {
-        this.holofotesLigados = true;
-        return "NaveExploradora (ID#" + this.id + "): holofotes ligados.";
-    }
-
-    @Override
-    public String decolar() {
-        return "NaveExploradora (ID#" + this.id + "): decolando.";
+        holofotesLigados = true;
+        return "NaveExploradora (ID#" + id + "): holofotes ligados.";
     }
 
     @Override
     public String pousar() {
-        // Primeiro, chamamos o método original da classe mãe para ver se o pouso é possível.
-        String relatorioPouso = super.pousar();
-
-        // Verificamos se o pouso foi autorizado pela classe mãe.
-        if (relatorioPouso.contains("autorizado")) {
-            this.holofotesLigados = false;
-            relatorioPouso = relatorioPouso + " Holofotes desligados automaticamente.";
+        if (velocidadeAtual == 0) {
+            holofotesLigados = false;
+            return "NaveExploradora (ID#" + id + "): pousando. Holofotes desligados.";
         }
-
-        return relatorioPouso;
+        return "NaveExploradora (ID#" + id + "): não pode pousar em movimento.";
     }
 }
