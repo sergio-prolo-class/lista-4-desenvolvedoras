@@ -1,41 +1,23 @@
 package ifsc.poo;
 
 public class NaveMineradora extends NaveEspacial implements Tripulada {
+    private int energiaLaserAtual = 1000;
+    private int energiaLaserMaxima = 1000;
 
-    private int energiaLaserMaxima;
-    private int energiaLaserAtual;
+    public NaveMineradora() { super(18, 4); }
 
-    public NaveMineradora() {
-        super(18, 4);
-        this.energiaLaserMaxima = 1000; // Valor de exemplo
-        this.energiaLaserAtual = 1000;
-    }
-
-    // Método obrigatório da Interface Tripulada
-    @Override
     public String controlarManual() {
-        return "NaveMineradora (ID#" + this.id + "): controle manual ativado.";
+        return "NaveMineradora (ID#" + id + "): controle manual ativado.";
     }
 
     public String minerar(int custo) {
-        if (this.velocidadeAtual < (this.velocidadeMaxima * 0.1)) {
-
-            if (this.energiaLaserAtual > custo) {
-
-                this.energiaLaserAtual = this.energiaLaserAtual - custo;
-                return "NaveMineradora (ID#" + this.id + "): Mineração realizada. Energia restante: " + this.energiaLaserAtual;
-
-            } else {
-                return "NaveMineradora (ID#" + this.id + "): Energia do laser insuficiente para minerar.";
+        if (velocidadeAtual < velocidadeMaxima * 0.1) {
+            if (energiaLaserAtual > custo) {
+                energiaLaserAtual -= custo;
+                return "NaveMineradora (ID#" + id + "): mineração realizada. Energia: " + energiaLaserAtual;
             }
-
-        } else {
-            return "NaveMineradora (ID#" + this.id + "): Impossível minerar em alta velocidade.";
+            return "NaveMineradora (ID#" + id + "): energia insuficiente.";
         }
-    }
-
-    @Override
-    public String decolar() {
-        return "NaveMineradora (ID#" + this.id + "): decolando.";
+        return "NaveMineradora (ID#" + id + "): velocidade alta demais para minerar.";
     }
 }
