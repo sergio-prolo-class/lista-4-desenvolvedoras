@@ -7,17 +7,19 @@ classDiagram
         +main(args: String[]) void
     }
 
-    class NaveEspacial {
+   class NaveEspacial {
         <<Abstract>>
-        #id: int
-        #velocidadeAtual: int
-        #velocidadeMaxima: int
-        #quantidadeAtualTripulantes: int
-        #quantidadeMaximaTripulantes: int
-        +acelerar(inten: int) String
-        +frear(inten: int) String
-        +pousar() String
-        +decolar() String
+        -id: int
+        -velocidadeAtual: int
+        -velocidadeMaxima: int
+        -quantidadeMaximaTripulantes: int
+        +acelerar(): void
+        +frear(): void
+        +pousar(): String
+        +decolar(): String
+        +getId(): int
+        +getVelocidadeAtual(): int
+        +getVelocidadeMaxima(): int
     }
 
     class Tripulada {
@@ -28,6 +30,7 @@ classDiagram
     class Blindada {
         <<Interface>>
         +ativarBlindagem() String
+        +desativarBlindagem(): String
     }
 
     class Autonoma {
@@ -35,27 +38,36 @@ classDiagram
         +ativarControleAutomatico() String
     }
 
-    class NaveCargueira {
-        -capacidadeMaxima: int
+  class NaveCargueira {
+        -capacidadeMaximaCarga: int
         -cargaAtual: int
-        +carregar(peso: int) String
-        +descarregar(peso: int) String
+        -blindagemAtiva: boolean
+        +carregar(peso: int): String
+        +descarregar(peso: int): String
+        +ativarBlindagem(): String
+        +desativarBlindagem(): String
+        +controlarManual(): String
     }
 
     class NaveMineradora {
         -energiaLaserMaxima: int
         -energiaLaserAtual: int
         +minerar(custo: int) String
+        +controlarManual(): String
     }
 
     class NaveExploradora {
         -holofotes: boolean
         +ligarHolofotes() String
+        +controlarManual(): String
+        +ativarBlindagem(): String
+        +desativarBlindagem(): String
     }
 
     class NaveSentinela {
         -radar: boolean
         +ligarRadar() String
+        +ativarControleAutomatico(): String
     }
 
     %% Relacionamentos de Herança
@@ -66,13 +78,13 @@ classDiagram
 
     %% Relacionamentos de Implementação de Interface
     Tripulada <|.. NaveCargueira
-    Blindada <|.. NaveCargueira
     Tripulada <|.. NaveMineradora
     Tripulada <|.. NaveExploradora
+    Blindada <|.. NaveCargueira
     Blindada <|.. NaveExploradora
     Autonoma <|.. NaveSentinela
 
     %% Relacionamento da App
-    App o-- NaveEspacial
+    App o-- "1...*" NaveEspacial
 
 ```
