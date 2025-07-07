@@ -4,7 +4,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class App {
-
     public static void main(String[] args) {
         Set<NaveEspacial> garagem = new LinkedHashSet<>();
 
@@ -20,56 +19,42 @@ public class App {
         garagem.add(exploradora);
         garagem.add(mineradora);
 
-        System.out.println("Frota montada com " + garagem.size() + " naves.");
-        System.out.println("\n--- Iniciando simulação individual das naves ---\n");
+        System.out.println("Frota montada com " + garagem.size() + " naves.\n");
 
         for (NaveEspacial nave : garagem) {
-            System.out.println("--- Status da Nave: " + nave.toString() + " ---");
-
-            // Uso de polimorfismo: todos objeto que é uma "NaveEspacial" tem o método decolar
+            System.out.println("--- Status da Nave: ID#" + nave.getId() + " ---");
             System.out.println(nave.decolar());
 
-            // Usando instanceof para chamar métodos das interfaces
-            if (nave instanceof Tripulada) {
-                // Converte a referência para o tipo da interface para chamar o método
-                Tripulada t = (Tripulada) nave;
+            if (nave instanceof Tripulada t) {
                 System.out.println(t.controlarManual());
             }
 
-            if (nave instanceof Autonoma) {
-                Autonoma a = (Autonoma) nave;
+            if (nave instanceof Autonoma a) {
                 System.out.println(a.ativarControleAutomatico());
             }
 
-            // Usando instanceof para chamar métodos das classes concretas
-            if (nave instanceof NaveCargueira) {
-                NaveCargueira c = (NaveCargueira) nave;
-                System.out.println(c.carregar(80)); // Testando a regra dos 70%
+            if (nave instanceof NaveCargueira c) {
+                System.out.println(c.carregar(80));
                 System.out.println(c.descarregar(40));
+                System.out.println(c.desativarBlindagem());
             }
 
-            if (nave instanceof NaveSentinela) {
-                NaveSentinela s = (NaveSentinela) nave;
-                // Acelera um pouco para testar a regra do radar
+            if (nave instanceof NaveSentinela s) {
                 nave.acelerar();
                 System.out.println(s.ligarRadar());
             }
 
-            if (nave instanceof NaveExploradora) {
-                NaveExploradora e = (NaveExploradora) nave;
+            if (nave instanceof NaveExploradora e) {
                 System.out.println(e.ligarHolofotes());
             }
 
-            if (nave instanceof NaveMineradora) {
-                NaveMineradora m = (NaveMineradora) nave;
-                // A velocidade inicial é 0, então a mineração deve funcionar
+            if (nave instanceof NaveMineradora m) {
                 System.out.println(m.minerar(150));
             }
 
-            // Uso de polimorfismo para o método pousar
+            nave.frear();
             System.out.println(nave.pousar());
-
-            System.out.println("--------------------------------------------------\n");
+            System.out.println();
         }
 
         System.out.println("--- Simulação finalizada ---");
