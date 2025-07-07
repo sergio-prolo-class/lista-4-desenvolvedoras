@@ -1,41 +1,59 @@
 package ifsc.poo;
 
 public abstract class NaveEspacial {
-
-    // Contador para garantir que cada nave tenha um ID único.
     private static int proximoId = 1;
-
-    // Atributos que toda nave terá.
     protected int id;
     protected int velocidadeAtual;
     protected int velocidadeMaxima;
     protected int quantidadeMaximaTripulantes;
 
-    // Construtor que as classes filhas usarão para nascer.
     public NaveEspacial(int velocidadeMaxima, int quantidadeMaximaTripulantes) {
-        this.id = proximoId++; // Atribui um ID único para a nave.
-        this.velocidadeAtual = 0; // Toda nave começa parada.
+        this.id = proximoId++;
+
+        if (this instanceof Blindada && velocidadeMaxima != 14)
+            throw new IllegalArgumentException("Blindadas devem ter velocidade máxima 14");
+        if (!(this instanceof Blindada) && velocidadeMaxima > 20)
+            throw new IllegalArgumentException("Velocidade máxima não pode passar de 20 para naves sem blindagem");
+        if (this instanceof Tripulada && velocidadeMaxima < 12)
+            throw new IllegalArgumentException("Tripuladas devem ter velocidade mínima de 12");
+        if (this instanceof Autonoma && quantidadeMaximaTripulantes != 0)
+            throw new IllegalArgumentException("Autônomas devem ter 0 tripulantes");
+
+        this.velocidadeAtual = 0;
         this.velocidadeMaxima = velocidadeMaxima;
         this.quantidadeMaximaTripulantes = quantidadeMaximaTripulantes;
     }
 
-    // Apenas informa a ação básica.
-    public String decolar() {
-        return "Nave decolando";
-    }
-
-    // Apenas informa a ação básica.
-    public String pousar() {
-        return "Nave pousando";
-    }
-
-    // Apenas aumenta a velocidade em 1, sem retornar mensagem.
     public void acelerar() {
-        this.velocidadeAtual++;
+        if (velocidadeAtual < velocidadeMaxima)
+            velocidadeAtual++;
     }
 
-    // Apenas diminui a velocidade em 1, sem retornar mensagem.
     public void frear() {
-        this.velocidadeAtual--;
+        if (velocidadeAtual > 0)
+            velocidadeAtual--;
+    }
+
+    public String decolar() {
+        return "Nave (ID#" + id + "): decolando.";
+    }
+
+    public String pousar() {
+        if (velocidadeAtual == 0)
+            return "Nave (ID#" + id + "): pousando.";
+        else
+            return "Nave (ID#" + id + "): não pode pousar em movimento.";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getVelocidadeAtual() {
+        return velocidadeAtual;
+    }
+
+    public int getVelocidadeMaxima() {
+        return velocidadeMaxima;
     }
 }
